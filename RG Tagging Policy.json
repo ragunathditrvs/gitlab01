@@ -1,0 +1,51 @@
+{
+    "properties": {
+      "displayName": "Deny Resource Group creation without required tags",
+      "policyType": "Custom",
+      "mode": "All",
+      "description": "This policy denies the creation of Resource Groups without required tags (Environment, Cost Center, Department, Owner).",
+      "metadata": {
+        "version": "1.0.0",
+        "category": "Tags"
+      },
+      "parameters": {},
+      "policyRule": {
+        "if": {
+          "allOf": [
+            {
+              "field": "type",
+              "equals": "Microsoft.Resources/subscriptions/resourceGroups"
+            },
+            {
+              "not": {
+                "field": "tags.Environment",
+                "exists": "true"
+              }
+            },
+            {
+              "not": {
+                "field": "tags.Cost Center",
+                "exists": "true"
+              }
+            },
+            {
+              "not": {
+                "field": "tags.Department",
+                "exists": "true"
+              }
+            },
+            {
+              "not": {
+                "field": "tags.Owner",
+                "exists": "true"
+              }
+            }
+          ]
+        },
+        "then": {
+          "effect": "Deny"
+        }
+      }
+    }
+  }
+  
